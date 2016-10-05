@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlMapper.ProductSize">
+  <resultMap id="ProductSizeResult" type="com.shoes.entity.ProductSize">
+    <id column="ps_id" jdbcType="INTEGER" property="psId"/>
+    <result column="size" jdbcType="INTEGER" property="size"/>
+    <result column="repertory" jdbcType="INTEGER" property="repertory"/>
+    <result column="product_id" jdbcType="INTEGER" property="productId"/>
+  </resultMap>
+  <sql id="ByMap_Where_Clause">
+    <where>
+      <if test="eqPsId != null">
+        and ps_id = #{eqPsId,jdbcType=INTEGER}
+      </if>
+      <if test="inPsIds != null">
+        and ps_id in ( ${inPsIds} )
+      </if>
+      <if test="inPsIdList != null">
+        and ps_id in <foreach close=")" collection="inPsIdList" index="index" item="item" open="(" separator=","> #{ item, jdbcType=INTEGER }</foreach>
+      </if>
+      <if test="gtPsId != null">
+        and ps_id <![CDATA[ > ]]> #{gtPsId,jdbcType=INTEGER}
+      </if>
+      <if test="eqSize != null">
+        and size = #{eqSize,jdbcType=INTEGER}
+      </if>
+      <if test="gtSize != null">
+        and size <![CDATA[ > ]]> #{gtSize,jdbcType=INTEGER}
+      </if>
+      <if test="eqRepertory != null">
+        and repertory = #{eqRepertory,jdbcType=INTEGER}
+      </if>
+      <if test="gtRepertory != null">
+        and repertory <![CDATA[ > ]]> #{gtRepertory,jdbcType=INTEGER}
+      </if>
+      <if test="eqProductId != null">
+        and product_id = #{eqProductId,jdbcType=INTEGER}
+      </if>
+      <if test="gtProductId != null">
+        and product_id <![CDATA[ > ]]> #{gtProductId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductSizeResult">
+    select ps_id, size, repertory, product_id
+    from product_size
+    where ps_id = #{value}
+  </select>
+  <select id="selectByMap" parameterType="java.util.Map" resultMap="ProductSizeResult">
+    select ps_id, size, repertory, product_id
+    from product_size
+    <if test="_parameter != null">
+      <include refid="sqlMapper.ProductSize.ByMap_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <include refid="BASE_DAO.pagination_End"/>
+    </if>
+  </select>
+  <select id="selectByMap_count" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1) from product_size
+    <if test="_parameter != null">
+      <include refid="sqlMapper.ProductSize.ByMap_Where_Clause"/>
+    </if>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from product_size
+     where ps_id = #{value}
+  </delete>
+  <delete id="deleteByMap" parameterType="java.util.Map">
+    delete from product_size
+    <include refid="sqlMapper.ProductSize.ByMap_Where_Clause"/>
+  </delete>
+  <insert id="insert" parameterType="com.shoes.entity.ProductSize">
+    insert into product_size (ps_id, size, repertory, product_id)
+    values (#{psId,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}, #{repertory,jdbcType=INTEGER},
+      #{productId,jdbcType=INTEGER})
+    
+  </insert>
+  <update id="updateById" parameterType="com.shoes.entity.ProductSize">
+    update product_size
+    set size = #{size,jdbcType=INTEGER},
+      repertory = #{repertory,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER}
+    where ps_id = #{psId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByMap" parameterType="java.util.Map">
+    update product_size
+    <trim prefix="set" suffixOverrides=",">
+      <if test="size != null">
+        size = #{size,jdbcType=INTEGER},
+      </if>
+      <if test="repertory != null">
+        repertory = #{repertory,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="sqlMapper.ProductSize.ByMap_Where_Clause"/>
+    </if>
+  </update>
+</mapper>

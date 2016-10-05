@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlMapper.ShoppingCart">
+  <resultMap id="ShoppingCartResult" type="com.shoes.entity.ShoppingCart">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="p_id" jdbcType="INTEGER" property="pId"/>
+    <result column="ps_id" jdbcType="INTEGER" property="psId"/>
+    <result column="cart_num" jdbcType="INTEGER" property="cartNum"/>
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
+  </resultMap>
+  <sql id="ByMap_Where_Clause">
+    <where>
+      <if test="eqId != null">
+        and id = #{eqId,jdbcType=INTEGER}
+      </if>
+      <if test="inIds != null">
+        and id in ( ${inIds} )
+      </if>
+      <if test="inIdList != null">
+        and id in <foreach close=")" collection="inIdList" index="index" item="item" open="(" separator=","> #{ item, jdbcType=INTEGER }</foreach>
+      </if>
+      <if test="gtId != null">
+        and id <![CDATA[ > ]]> #{gtId,jdbcType=INTEGER}
+      </if>
+      <if test="eqPId != null">
+        and p_id = #{eqPId,jdbcType=INTEGER}
+      </if>
+      <if test="gtPId != null">
+        and p_id <![CDATA[ > ]]> #{gtPId,jdbcType=INTEGER}
+      </if>
+      <if test="eqPsId != null">
+        and ps_id = #{eqPsId,jdbcType=INTEGER}
+      </if>
+      <if test="gtPsId != null">
+        and ps_id <![CDATA[ > ]]> #{gtPsId,jdbcType=INTEGER}
+      </if>
+      <if test="eqCartNum != null">
+        and cart_num = #{eqCartNum,jdbcType=INTEGER}
+      </if>
+      <if test="gtCartNum != null">
+        and cart_num <![CDATA[ > ]]> #{gtCartNum,jdbcType=INTEGER}
+      </if>
+      <if test="eqUserId != null">
+        and user_id = #{eqUserId,jdbcType=INTEGER}
+      </if>
+      <if test="gtUserId != null">
+        and user_id <![CDATA[ > ]]> #{gtUserId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="ShoppingCartResult">
+    select id, p_id, ps_id, cart_num, user_id
+    from shopping_cart
+    where id = #{value}
+  </select>
+  <select id="selectByMap" parameterType="java.util.Map" resultMap="ShoppingCartResult">
+    select id, p_id, ps_id, cart_num, user_id
+    from shopping_cart
+    <if test="_parameter != null">
+      <include refid="sqlMapper.ShoppingCart.ByMap_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <include refid="BASE_DAO.pagination_End"/>
+    </if>
+  </select>
+  <select id="selectByMap_count" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1) from shopping_cart
+    <if test="_parameter != null">
+      <include refid="sqlMapper.ShoppingCart.ByMap_Where_Clause"/>
+    </if>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from shopping_cart
+     where id = #{value}
+  </delete>
+  <delete id="deleteByMap" parameterType="java.util.Map">
+    delete from shopping_cart
+    <include refid="sqlMapper.ShoppingCart.ByMap_Where_Clause"/>
+  </delete>
+  <insert id="insert" parameterType="com.shoes.entity.ShoppingCart">
+    insert into shopping_cart (id, p_id, ps_id, cart_num, user_id)
+    values (#{id,jdbcType=INTEGER}, #{pId,jdbcType=INTEGER}, #{psId,jdbcType=INTEGER},
+      #{cartNum,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
+    <selectKey keyProperty="id" resultType="java.lang.Integer">SELECT LAST_INSERT_ID() as id
+      </selectKey>
+  </insert>
+  <update id="updateById" parameterType="com.shoes.entity.ShoppingCart">
+    update shopping_cart
+    set p_id = #{pId,jdbcType=INTEGER},
+      ps_id = #{psId,jdbcType=INTEGER},
+      cart_num = #{cartNum,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByMap" parameterType="java.util.Map">
+    update shopping_cart
+    <trim prefix="set" suffixOverrides=",">
+      <if test="pId != null">
+        p_id = #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="psId != null">
+        ps_id = #{psId,jdbcType=INTEGER},
+      </if>
+      <if test="cartNum != null">
+        cart_num = #{cartNum,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="sqlMapper.ShoppingCart.ByMap_Where_Clause"/>
+    </if>
+  </update>
+</mapper>

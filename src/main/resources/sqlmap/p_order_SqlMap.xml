@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlMapper.Porder">
+  <resultMap id="PorderResult" type="com.shoes.entity.Porder">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+    <result column="p_id" jdbcType="INTEGER" property="pId"/>
+    <result column="ps_id" jdbcType="INTEGER" property="psId"/>
+    <result column="product_num" jdbcType="INTEGER" property="productNum"/>
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime"/>
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime"/>
+    <result column="finsh_time" jdbcType="TIMESTAMP" property="finshTime"/>
+    <result column="status" jdbcType="INTEGER" property="status"/>
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
+  </resultMap>
+  <sql id="ByMap_Where_Clause">
+    <where>
+      <if test="eqId != null">
+        and id = #{eqId,jdbcType=INTEGER}
+      </if>
+      <if test="inIds != null">
+        and id in ( ${inIds} )
+      </if>
+      <if test="inIdList != null">
+        and id in <foreach close=")" collection="inIdList" index="index" item="item" open="(" separator=","> #{ item, jdbcType=INTEGER }</foreach>
+      </if>
+      <if test="gtId != null">
+        and id <![CDATA[ > ]]> #{gtId,jdbcType=INTEGER}
+      </if>
+      <if test="eqOrderId != null">
+        and order_id = #{eqOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="likeOrderId != null">
+        and order_id like #{likeOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="eqPId != null">
+        and p_id = #{eqPId,jdbcType=INTEGER}
+      </if>
+      <if test="gtPId != null">
+        and p_id <![CDATA[ > ]]> #{gtPId,jdbcType=INTEGER}
+      </if>
+      <if test="eqPsId != null">
+        and ps_id = #{eqPsId,jdbcType=INTEGER}
+      </if>
+      <if test="gtPsId != null">
+        and ps_id <![CDATA[ > ]]> #{gtPsId,jdbcType=INTEGER}
+      </if>
+      <if test="eqProductNum != null">
+        and product_num = #{eqProductNum,jdbcType=INTEGER}
+      </if>
+      <if test="gtProductNum != null">
+        and product_num <![CDATA[ > ]]> #{gtProductNum,jdbcType=INTEGER}
+      </if>
+      <if test="gtBeginTime != null">
+        and begin_time <![CDATA[ > ]]> #{gtBeginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="gtPayTime != null">
+        and pay_time <![CDATA[ > ]]> #{gtPayTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="gtFinshTime != null">
+        and finsh_time <![CDATA[ > ]]> #{gtFinshTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="eqStatus != null">
+        and status = #{eqStatus,jdbcType=INTEGER}
+      </if>
+      <if test="gtStatus != null">
+        and status <![CDATA[ > ]]> #{gtStatus,jdbcType=INTEGER}
+      </if>
+      <if test="eqUserId != null">
+        and user_id = #{eqUserId,jdbcType=INTEGER}
+      </if>
+      <if test="gtUserId != null">
+        and user_id <![CDATA[ > ]]> #{gtUserId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="PorderResult">
+    select id, order_id, p_id, ps_id, product_num, begin_time, pay_time, finsh_time, status, user_id
+    from p_order
+    where id = #{value}
+  </select>
+  <select id="selectByMap" parameterType="java.util.Map" resultMap="PorderResult">
+    select id, order_id, p_id, ps_id, product_num, begin_time, pay_time, finsh_time, status, user_id
+    from p_order
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Porder.ByMap_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <include refid="BASE_DAO.pagination_End"/>
+    </if>
+  </select>
+  <select id="selectByMap_count" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1) from p_order
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Porder.ByMap_Where_Clause"/>
+    </if>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from p_order
+     where id = #{value}
+  </delete>
+  <delete id="deleteByMap" parameterType="java.util.Map">
+    delete from p_order
+    <include refid="sqlMapper.Porder.ByMap_Where_Clause"/>
+  </delete>
+  <insert id="insert" parameterType="com.shoes.entity.Porder">
+    insert into p_order (id, order_id, p_id, ps_id, product_num, begin_time, pay_time, finsh_time,
+      status, user_id)
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{pId,jdbcType=INTEGER},
+      #{psId,jdbcType=INTEGER}, #{productNum,jdbcType=INTEGER}, #{beginTime,jdbcType=TIMESTAMP},
+      #{payTime,jdbcType=TIMESTAMP}, #{finshTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+      #{userId,jdbcType=INTEGER})
+    <selectKey keyProperty="id" resultType="java.lang.Integer">SELECT LAST_INSERT_ID() as id
+      </selectKey>
+  </insert>
+  <update id="updateById" parameterType="com.shoes.entity.Porder">
+    update p_order
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      p_id = #{pId,jdbcType=INTEGER},
+      ps_id = #{psId,jdbcType=INTEGER},
+      product_num = #{productNum,jdbcType=INTEGER},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      finsh_time = #{finshTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByMap" parameterType="java.util.Map">
+    update p_order
+    <trim prefix="set" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null">
+        p_id = #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="psId != null">
+        ps_id = #{psId,jdbcType=INTEGER},
+      </if>
+      <if test="productNum != null">
+        product_num = #{productNum,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finshTime != null">
+        finsh_time = #{finshTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Porder.ByMap_Where_Clause"/>
+    </if>
+  </update>
+</mapper>

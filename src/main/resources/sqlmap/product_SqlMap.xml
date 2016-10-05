@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlMapper.Product">
+  <resultMap id="ProductResult" type="com.shoes.entity.Product">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="title" jdbcType="VARCHAR" property="title"/>
+    <result column="brand_id" jdbcType="INTEGER" property="brandId"/>
+    <result column="type_id" jdbcType="INTEGER" property="typeId"/>
+    <result column="hot" jdbcType="INTEGER" property="hot"/>
+    <result column="main_img" jdbcType="VARCHAR" property="mainImg"/>
+    <result column="first_img" jdbcType="VARCHAR" property="firstImg"/>
+    <result column="second_img" jdbcType="VARCHAR" property="secondImg"/>
+    <result column="third_img" jdbcType="VARCHAR" property="thirdImg"/>
+    <result column="last_price" jdbcType="DOUBLE" property="lastPrice"/>
+    <result column="now_price" jdbcType="DOUBLE" property="nowPrice"/>
+    <result column="saled" jdbcType="INTEGER" property="saled"/>
+  </resultMap>
+  <resultMap extends="sqlMapper.Product.ProductResult" id="ProductResultWithBLOBs" type="com.shoes.entity.Product">
+    <result column="summary" jdbcType="LONGVARCHAR" property="summary"/>
+  </resultMap>
+  <sql id="ByMap_Where_Clause">
+    <where>
+      <if test="eqId != null">
+        and id = #{eqId,jdbcType=INTEGER}
+      </if>
+      <if test="inIds != null">
+        and id in ( ${inIds} )
+      </if>
+      <if test="inIdList != null">
+        and id in <foreach close=")" collection="inIdList" index="index" item="item" open="(" separator=","> #{ item, jdbcType=INTEGER }</foreach>
+      </if>
+      <if test="gtId != null">
+        and id <![CDATA[ > ]]> #{gtId,jdbcType=INTEGER}
+      </if>
+      <if test="eqTitle != null">
+        and title = #{eqTitle,jdbcType=VARCHAR}
+      </if>
+      <if test="likeTitle != null">
+        and title like #{likeTitle,jdbcType=VARCHAR}
+      </if>
+      <if test="eqBrandId != null">
+        and brand_id = #{eqBrandId,jdbcType=INTEGER}
+      </if>
+      <if test="gtBrandId != null">
+        and brand_id <![CDATA[ > ]]> #{gtBrandId,jdbcType=INTEGER}
+      </if>
+      <if test="eqTypeId != null">
+        and type_id = #{eqTypeId,jdbcType=INTEGER}
+      </if>
+      <if test="gtTypeId != null">
+        and type_id <![CDATA[ > ]]> #{gtTypeId,jdbcType=INTEGER}
+      </if>
+      <if test="eqHot != null">
+        and hot = #{eqHot,jdbcType=INTEGER}
+      </if>
+      <if test="gtHot != null">
+        and hot <![CDATA[ > ]]> #{gtHot,jdbcType=INTEGER}
+      </if>
+      <if test="eqMainImg != null">
+        and main_img = #{eqMainImg,jdbcType=VARCHAR}
+      </if>
+      <if test="likeMainImg != null">
+        and main_img like #{likeMainImg,jdbcType=VARCHAR}
+      </if>
+      <if test="eqFirstImg != null">
+        and first_img = #{eqFirstImg,jdbcType=VARCHAR}
+      </if>
+      <if test="likeFirstImg != null">
+        and first_img like #{likeFirstImg,jdbcType=VARCHAR}
+      </if>
+      <if test="eqSecondImg != null">
+        and second_img = #{eqSecondImg,jdbcType=VARCHAR}
+      </if>
+      <if test="likeSecondImg != null">
+        and second_img like #{likeSecondImg,jdbcType=VARCHAR}
+      </if>
+      <if test="eqThirdImg != null">
+        and third_img = #{eqThirdImg,jdbcType=VARCHAR}
+      </if>
+      <if test="likeThirdImg != null">
+        and third_img like #{likeThirdImg,jdbcType=VARCHAR}
+      </if>
+      <if test="eqLastPrice != null">
+        and last_price = #{eqLastPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="gtLastPrice != null">
+        and last_price <![CDATA[ > ]]> #{gtLastPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="eqNowPrice != null">
+        and now_price = #{eqNowPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="gtNowPrice != null">
+        and now_price <![CDATA[ > ]]> #{gtNowPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="eqSaled != null">
+        and saled = #{eqSaled,jdbcType=INTEGER}
+      </if>
+      <if test="gtSaled != null">
+        and saled <![CDATA[ > ]]> #{gtSaled,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductResultWithBLOBs">
+    select id, title, brand_id, type_id, hot, main_img, first_img, second_img, third_img,
+      last_price, now_price, saled, summary
+    from product
+    where id = #{value}
+  </select>
+  <select id="selectByMap" parameterType="java.util.Map" resultMap="ProductResult">
+    select id, title, brand_id, type_id, hot, main_img, first_img, second_img, third_img,
+      last_price, now_price, saled
+    from product
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Product.ByMap_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <include refid="BASE_DAO.pagination_End"/>
+    </if>
+  </select>
+  <select id="selectByMapWithBLOBs" parameterType="java.util.Map" resultMap="ProductResultWithBLOBs">
+    select id, title, brand_id, type_id, hot, main_img, first_img, second_img, third_img,
+      last_price, now_price, saled, summary
+    from product
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Product.ByMap_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <include refid="BASE_DAO.pagination_End"/>
+    </if>
+  </select>
+  <select id="selectByMap_count" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1) from product
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Product.ByMap_Where_Clause"/>
+    </if>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from product
+     where id = #{value}
+  </delete>
+  <delete id="deleteByMap" parameterType="java.util.Map">
+    delete from product
+    <include refid="sqlMapper.Product.ByMap_Where_Clause"/>
+  </delete>
+  <insert id="insert" parameterType="com.shoes.entity.Product">
+    insert into product (id, title, brand_id, type_id, hot, main_img, first_img, second_img,
+      third_img, last_price, now_price, saled, summary)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER},
+      #{typeId,jdbcType=INTEGER}, #{hot,jdbcType=INTEGER}, #{mainImg,jdbcType=VARCHAR},
+      #{firstImg,jdbcType=VARCHAR}, #{secondImg,jdbcType=VARCHAR}, #{thirdImg,jdbcType=VARCHAR},
+      #{lastPrice,jdbcType=DOUBLE}, #{nowPrice,jdbcType=DOUBLE}, #{saled,jdbcType=INTEGER},
+      #{summary,jdbcType=LONGVARCHAR})
+    <selectKey keyProperty="id" resultType="java.lang.Integer">SELECT LAST_INSERT_ID() as id
+      </selectKey>
+  </insert>
+  <update id="updateByIdWithBLOBs" parameterType="com.shoes.entity.Product">
+    update product
+    set title = #{title,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=INTEGER},
+      hot = #{hot,jdbcType=INTEGER},
+      main_img = #{mainImg,jdbcType=VARCHAR},
+      first_img = #{firstImg,jdbcType=VARCHAR},
+      second_img = #{secondImg,jdbcType=VARCHAR},
+      third_img = #{thirdImg,jdbcType=VARCHAR},
+      last_price = #{lastPrice,jdbcType=DOUBLE},
+      now_price = #{nowPrice,jdbcType=DOUBLE},
+      saled = #{saled,jdbcType=INTEGER},
+      summary = #{summary,jdbcType=LONGVARCHAR}
+    where id = #{id}
+  </update>
+  <update id="updateById" parameterType="com.shoes.entity.Product">
+    update product
+    set title = #{title,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=INTEGER},
+      hot = #{hot,jdbcType=INTEGER},
+      main_img = #{mainImg,jdbcType=VARCHAR},
+      first_img = #{firstImg,jdbcType=VARCHAR},
+      second_img = #{secondImg,jdbcType=VARCHAR},
+      third_img = #{thirdImg,jdbcType=VARCHAR},
+      last_price = #{lastPrice,jdbcType=DOUBLE},
+      now_price = #{nowPrice,jdbcType=DOUBLE},
+      saled = #{saled,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByMap" parameterType="java.util.Map">
+    update product
+    <trim prefix="set" suffixOverrides=",">
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null">
+        hot = #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="mainImg != null">
+        main_img = #{mainImg,jdbcType=VARCHAR},
+      </if>
+      <if test="firstImg != null">
+        first_img = #{firstImg,jdbcType=VARCHAR},
+      </if>
+      <if test="secondImg != null">
+        second_img = #{secondImg,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdImg != null">
+        third_img = #{thirdImg,jdbcType=VARCHAR},
+      </if>
+      <if test="lastPrice != null">
+        last_price = #{lastPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="nowPrice != null">
+        now_price = #{nowPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="saled != null">
+        saled = #{saled,jdbcType=INTEGER},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Product.ByMap_Where_Clause"/>
+    </if>
+  </update>
+</mapper>

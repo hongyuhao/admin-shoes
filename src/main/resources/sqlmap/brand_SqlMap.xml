@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlMapper.Brand">
+  <resultMap id="BrandResult" type="com.shoes.entity.Brand">
+    <id column="brand_id" jdbcType="INTEGER" property="brandId"/>
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName"/>
+    <result column="brand_icon" jdbcType="VARCHAR" property="brandIcon"/>
+  </resultMap>
+  <sql id="ByMap_Where_Clause">
+    <where>
+      <if test="eqBrandId != null">
+        and brand_id = #{eqBrandId,jdbcType=INTEGER}
+      </if>
+      <if test="inBrandIds != null">
+        and brand_id in ( ${inBrandIds} )
+      </if>
+      <if test="inBrandIdList != null">
+        and brand_id in <foreach close=")" collection="inBrandIdList" index="index" item="item" open="(" separator=","> #{ item, jdbcType=INTEGER }</foreach>
+      </if>
+      <if test="gtBrandId != null">
+        and brand_id <![CDATA[ > ]]> #{gtBrandId,jdbcType=INTEGER}
+      </if>
+      <if test="eqBrandName != null">
+        and brand_name = #{eqBrandName,jdbcType=VARCHAR}
+      </if>
+      <if test="likeBrandName != null">
+        and brand_name like #{likeBrandName,jdbcType=VARCHAR}
+      </if>
+      <if test="eqBrandIcon != null">
+        and brand_icon = #{eqBrandIcon,jdbcType=VARCHAR}
+      </if>
+      <if test="likeBrandIcon != null">
+        and brand_icon like #{likeBrandIcon,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BrandResult">
+    select brand_id, brand_name, brand_icon
+    from brand
+    where brand_id = #{value}
+  </select>
+  <select id="selectByMap" parameterType="java.util.Map" resultMap="BrandResult">
+    select brand_id, brand_name, brand_icon
+    from brand
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Brand.ByMap_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <include refid="BASE_DAO.pagination_End"/>
+    </if>
+  </select>
+  <select id="selectByMap_count" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1) from brand
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Brand.ByMap_Where_Clause"/>
+    </if>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from brand
+     where brand_id = #{value}
+  </delete>
+  <delete id="deleteByMap" parameterType="java.util.Map">
+    delete from brand
+    <include refid="sqlMapper.Brand.ByMap_Where_Clause"/>
+  </delete>
+  <insert id="insert" parameterType="com.shoes.entity.Brand">
+    insert into brand (brand_id, brand_name, brand_icon)
+    values (#{brandId,jdbcType=INTEGER}, #{brandName,jdbcType=VARCHAR},
+      #{brandIcon,jdbcType=VARCHAR})
+    
+  </insert>
+  <update id="updateById" parameterType="com.shoes.entity.Brand">
+    update brand
+    set brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_icon = #{brandIcon,jdbcType=VARCHAR}
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByMap" parameterType="java.util.Map">
+    update brand
+    <trim prefix="set" suffixOverrides=",">
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandIcon != null">
+        brand_icon = #{brandIcon,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="sqlMapper.Brand.ByMap_Where_Clause"/>
+    </if>
+  </update>
+</mapper>

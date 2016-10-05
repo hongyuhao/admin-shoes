@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlMapper.User">
+  <resultMap id="UserResult" type="com.shoes.entity.User">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="username" jdbcType="VARCHAR" property="username"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="realname" jdbcType="VARCHAR" property="realname"/>
+    <result column="identity" jdbcType="VARCHAR" property="identity"/>
+    <result column="usertype" jdbcType="INTEGER" property="usertype"/>
+    <result column="balance" jdbcType="DOUBLE" property="balance"/>
+  </resultMap>
+  <sql id="ByMap_Where_Clause">
+    <where>
+      <if test="eqId != null">
+        and id = #{eqId,jdbcType=INTEGER}
+      </if>
+      <if test="inIds != null">
+        and id in ( ${inIds} )
+      </if>
+      <if test="inIdList != null">
+        and id in <foreach close=")" collection="inIdList" index="index" item="item" open="(" separator=","> #{ item, jdbcType=INTEGER }</foreach>
+      </if>
+      <if test="gtId != null">
+        and id <![CDATA[ > ]]> #{gtId,jdbcType=INTEGER}
+      </if>
+      <if test="eqUsername != null">
+        and username = #{eqUsername,jdbcType=VARCHAR}
+      </if>
+      <if test="likeUsername != null">
+        and username like #{likeUsername,jdbcType=VARCHAR}
+      </if>
+      <if test="eqPassword != null">
+        and password = #{eqPassword,jdbcType=VARCHAR}
+      </if>
+      <if test="likePassword != null">
+        and password like #{likePassword,jdbcType=VARCHAR}
+      </if>
+      <if test="eqRealname != null">
+        and realname = #{eqRealname,jdbcType=VARCHAR}
+      </if>
+      <if test="likeRealname != null">
+        and realname like #{likeRealname,jdbcType=VARCHAR}
+      </if>
+      <if test="eqIdentity != null">
+        and identity = #{eqIdentity,jdbcType=VARCHAR}
+      </if>
+      <if test="likeIdentity != null">
+        and identity like #{likeIdentity,jdbcType=VARCHAR}
+      </if>
+      <if test="eqUsertype != null">
+        and usertype = #{eqUsertype,jdbcType=INTEGER}
+      </if>
+      <if test="gtUsertype != null">
+        and usertype <![CDATA[ > ]]> #{gtUsertype,jdbcType=INTEGER}
+      </if>
+      <if test="eqBalance != null">
+        and balance = #{eqBalance,jdbcType=DOUBLE}
+      </if>
+      <if test="gtBalance != null">
+        and balance <![CDATA[ > ]]> #{gtBalance,jdbcType=DOUBLE}
+      </if>
+    </where>
+  </sql>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="UserResult">
+    select id, username, password, realname, identity, usertype, balance
+    from user
+    where id = #{value}
+  </select>
+  <select id="selectByMap" parameterType="java.util.Map" resultMap="UserResult">
+    select id, username, password, realname, identity, usertype, balance
+    from user
+    <if test="_parameter != null">
+      <include refid="sqlMapper.User.ByMap_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <include refid="BASE_DAO.pagination_End"/>
+    </if>
+  </select>
+  <select id="selectByMap_count" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1) from user
+    <if test="_parameter != null">
+      <include refid="sqlMapper.User.ByMap_Where_Clause"/>
+    </if>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from user
+     where id = #{value}
+  </delete>
+  <delete id="deleteByMap" parameterType="java.util.Map">
+    delete from user
+    <include refid="sqlMapper.User.ByMap_Where_Clause"/>
+  </delete>
+  <insert id="insert" parameterType="com.shoes.entity.User">
+    insert into user (id, username, password, realname, identity, usertype, balance)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{realname,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{usertype,jdbcType=INTEGER},
+      #{balance,jdbcType=DOUBLE})
+    <selectKey keyProperty="id" resultType="java.lang.Integer">SELECT LAST_INSERT_ID() as id
+      </selectKey>
+  </insert>
+  <update id="updateById" parameterType="com.shoes.entity.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      identity = #{identity,jdbcType=VARCHAR},
+      usertype = #{usertype,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByMap" parameterType="java.util.Map">
+    update user
+    <trim prefix="set" suffixOverrides=",">
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="identity != null">
+        identity = #{identity,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null">
+        usertype = #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=DOUBLE},
+      </if>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="sqlMapper.User.ByMap_Where_Clause"/>
+    </if>
+  </update>
+</mapper>

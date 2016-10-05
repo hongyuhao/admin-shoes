@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE abatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN"
+        "http://ibatis.apache.org/dtd/abator-config_1_0.dtd">
+
+
+<abatorConfiguration>
+  	<abatorContext generatorSet="Java5" defaultModelType="conditional" >
+	    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://119.29.164.91:3306/shoes" userId="root" password="root" >
+	      <classPathEntry location="/home/hongyuhao/.m2/repository/mysql/mysql-connector-java/5.1.29/mysql-connector-java-5.1.29.jar" />
+	    </jdbcConnection>
+	    <javaModelGenerator targetPackage="com.shoes.entity" targetProject="/home/hongyuhao/work/git/admin-shoes/src/main/java" />
+	    <sqlMapGenerator targetPackage="sqlmap" targetProject="/home/hongyuhao/work/git/admin-shoes/src/main/resources" >
+	      <property name="databaseVendor" value="mysql" />
+	      <property name="abatorConfigFile" value="/home/hongyuhao/work/git/admin-shoes/script/abatorConfigProject.xml" />
+	    </sqlMapGenerator>
+	    <daoGenerator type="build" targetPackage="com.shoes.dao" targetProject="/home/hongyuhao/work/git/admin-shoes/src/main/java" >
+	      <property name="useSpringAnnotation" value="true" />
+	      <property name="methodNameCalculator" value="default" />
+	      <property name="rootInterface" value="com.shoes.framework.base.dao.BaseDao" />
+	    </daoGenerator>
+	    <serviceGenerator type="build" targetPackage="com.shoes.service" targetProject="/home/hongyuhao/work/git/admin-shoes/src/main/java" >
+	      <property name="methodNameCalculator" value="default" />
+	      <property name="rootInterface" value="com.shoes.framework.base.service.BaseService" />
+	    </serviceGenerator>
+
+	    <controllerGenerator type="build" targetPackage="com.shoes.controller" targetProject="/home/hongyuhao/work/git/admin-shoes/src/main/java" >
+	      <property name="moduleUrlPrefix" value="/admin" />
+	      <property name="methodNameCalculator" value="extended" />
+	    </controllerGenerator>
+
+		<table schema="" tableName="shopping_cart" domainObjectName="ShoppingCart" ></table>
+		<table schema="" tableName="brand" domainObjectName="Brand" ></table>
+		<table schema="" tableName="p_order" domainObjectName="Porder" ></table>
+		<table schema="" tableName="product" domainObjectName="Product" ></table>
+		<table schema="" tableName="product_size" domainObjectName="ProductSize" ></table>
+		<table schema="" tableName="user" domainObjectName="User" ></table>
+
+		<!--<table schema="" tableName="devices" domainObjectName="Devices" ></table>
+		<table schema="" tableName="smart_devices" domainObjectName="SmartDevices" ></table>
+		<table schema="" tableName="media" domainObjectName="media" ></table>
+		<table schema="" tableName="xk_sdevices" domainObjectName="XkSdevices" ></table>-->
+		<!--<table schema="" tableName="xk_admin_phone" domainObjectName="XkAdminPhone" ></table>-->
+
+
+	</abatorContext>
+</abatorConfiguration>
