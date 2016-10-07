@@ -34,6 +34,9 @@ public class UserController extends BaseController3 {
     public String listUser(HttpServletRequest request, ModelMap model) {
         HttpRequestInfo reqInfo = new HttpRequestInfo(request);
         setRequestModelMap( request, model, true );
+        if(model.containsKey("lkUsername")) {
+            model.put("likeUsername", "%" + reqInfo.getParameter("lkUsername") + "%");
+        }
         getPageList( model );
         return HOME_VIEW;
     }

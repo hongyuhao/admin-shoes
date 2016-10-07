@@ -1,5 +1,6 @@
 package com.shoes.service.daoimpl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shoes.dao.BrandDao;
 import com.shoes.entity.Brand;
 import com.shoes.framework.base.dao.BaseDao;
@@ -7,6 +8,7 @@ import com.shoes.framework.base.service.daoimpl.BaseServiceImpl;
 import com.shoes.service.BrandService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,5 +38,10 @@ public class BrandServiceImpl extends BaseServiceImpl<Brand> implements BrandSer
 
     public void setBrandDao(BrandDao brandDao) {
         this.brandDao = brandDao;
+    }
+
+    @Override
+    public JSONObject uploadImg(HttpServletRequest request) {
+        return null;
     }
 }

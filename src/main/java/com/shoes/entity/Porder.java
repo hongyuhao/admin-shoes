@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Porder implements Serializable {
-    private static final long serialVersionUID = -4894743159509824348L;
+    private static final long serialVersionUID = -4737917488351444633L;
 
     /**
      * This field corresponds to the database column p_order.id
@@ -19,16 +19,16 @@ public class Porder implements Serializable {
     /**
      * This field corresponds to the database column p_order.p_id
      */
-    private Integer pId = 0;
+    private Integer pid = 0;
 
     /**
      * This field corresponds to the database column p_order.ps_id
      */
-    private Integer psId = 0;
+    private Integer psid = 0;
 
     /**
      * This field corresponds to the database column p_order.product_num
-     * 下单商品数量
+     * �µ���Ʒ����
      */
     private Integer productNum = 0;
 
@@ -39,7 +39,7 @@ public class Porder implements Serializable {
 
     /**
      * This field corresponds to the database column p_order.pay_time
-     * 付款时间
+     * ����ʱ��
      */
     private Date payTime = new Date();
 
@@ -50,13 +50,13 @@ public class Porder implements Serializable {
 
     /**
      * This field corresponds to the database column p_order.status
-     * 0:未付款，1：已付款待确认收货，2：已完成，3：已关闭
+     * 0:δ���1���Ѹ����ȷ���ջ���2������ɣ�3���ѹر�
      */
     private Integer status = 0;
 
     /**
      * This field corresponds to the database column p_order.user_id
-     * 所属用户id
+     * �����û�id
      */
     private Integer userId = 0;
 
@@ -101,17 +101,17 @@ public class Porder implements Serializable {
      *
      * @return the value of p_order.p_id
      */
-    public Integer getPId() {
-        return pId;
+    public Integer getPid() {
+        return pid;
     }
 
     /**
      * This method sets the value of the database column p_order.p_id
      *
-     * @param pId the value for p_order.p_id
+     * @param pid the value for p_order.p_id
      */
-    public void setPId(Integer pId) {
-        this.pId = pId;
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 
     /**
@@ -119,17 +119,17 @@ public class Porder implements Serializable {
      *
      * @return the value of p_order.ps_id
      */
-    public Integer getPsId() {
-        return psId;
+    public Integer getPsid() {
+        return psid;
     }
 
     /**
      * This method sets the value of the database column p_order.ps_id
      *
-     * @param psId the value for p_order.ps_id
+     * @param psid the value for p_order.ps_id
      */
-    public void setPsId(Integer psId) {
-        this.psId = psId;
+    public void setPsid(Integer psid) {
+        this.psid = psid;
     }
 
     /**

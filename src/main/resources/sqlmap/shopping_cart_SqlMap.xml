@@ -3,8 +3,8 @@
 <mapper namespace="sqlMapper.ShoppingCart">
   <resultMap id="ShoppingCartResult" type="com.shoes.entity.ShoppingCart">
     <id column="id" jdbcType="INTEGER" property="id"/>
-    <result column="p_id" jdbcType="INTEGER" property="pId"/>
-    <result column="ps_id" jdbcType="INTEGER" property="psId"/>
+    <result column="p_id" jdbcType="INTEGER" property="pid"/>
+    <result column="ps_id" jdbcType="INTEGER" property="psid"/>
     <result column="cart_num" jdbcType="INTEGER" property="cartNum"/>
     <result column="user_id" jdbcType="INTEGER" property="userId"/>
   </resultMap>
@@ -22,17 +22,17 @@
       <if test="gtId != null">
         and id <![CDATA[ > ]]> #{gtId,jdbcType=INTEGER}
       </if>
-      <if test="eqPId != null">
-        and p_id = #{eqPId,jdbcType=INTEGER}
+      <if test="eqPid != null">
+        and p_id = #{eqPid,jdbcType=INTEGER}
       </if>
-      <if test="gtPId != null">
-        and p_id <![CDATA[ > ]]> #{gtPId,jdbcType=INTEGER}
+      <if test="gtPid != null">
+        and p_id <![CDATA[ > ]]> #{gtPid,jdbcType=INTEGER}
       </if>
-      <if test="eqPsId != null">
-        and ps_id = #{eqPsId,jdbcType=INTEGER}
+      <if test="eqPsid != null">
+        and ps_id = #{eqPsid,jdbcType=INTEGER}
       </if>
-      <if test="gtPsId != null">
-        and ps_id <![CDATA[ > ]]> #{gtPsId,jdbcType=INTEGER}
+      <if test="gtPsid != null">
+        and ps_id <![CDATA[ > ]]> #{gtPsid,jdbcType=INTEGER}
       </if>
       <if test="eqCartNum != null">
         and cart_num = #{eqCartNum,jdbcType=INTEGER}
@@ -80,15 +80,15 @@
   </delete>
   <insert id="insert" parameterType="com.shoes.entity.ShoppingCart">
     insert into shopping_cart (id, p_id, ps_id, cart_num, user_id)
-    values (#{id,jdbcType=INTEGER}, #{pId,jdbcType=INTEGER}, #{psId,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{psid,jdbcType=INTEGER},
       #{cartNum,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
     <selectKey keyProperty="id" resultType="java.lang.Integer">SELECT LAST_INSERT_ID() as id
       </selectKey>
   </insert>
   <update id="updateById" parameterType="com.shoes.entity.ShoppingCart">
     update shopping_cart
-    set p_id = #{pId,jdbcType=INTEGER},
-      ps_id = #{psId,jdbcType=INTEGER},
+    set p_id = #{pid,jdbcType=INTEGER},
+      ps_id = #{psid,jdbcType=INTEGER},
       cart_num = #{cartNum,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
@@ -96,11 +96,11 @@
   <update id="updateByMap" parameterType="java.util.Map">
     update shopping_cart
     <trim prefix="set" suffixOverrides=",">
-      <if test="pId != null">
-        p_id = #{pId,jdbcType=INTEGER},
+      <if test="pid != null">
+        p_id = #{pid,jdbcType=INTEGER},
       </if>
-      <if test="psId != null">
-        ps_id = #{psId,jdbcType=INTEGER},
+      <if test="psid != null">
+        ps_id = #{psid,jdbcType=INTEGER},
       </if>
       <if test="cartNum != null">
         cart_num = #{cartNum,jdbcType=INTEGER},

@@ -4,8 +4,8 @@
   <resultMap id="PorderResult" type="com.shoes.entity.Porder">
     <id column="id" jdbcType="INTEGER" property="id"/>
     <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
-    <result column="p_id" jdbcType="INTEGER" property="pId"/>
-    <result column="ps_id" jdbcType="INTEGER" property="psId"/>
+    <result column="p_id" jdbcType="INTEGER" property="pid"/>
+    <result column="ps_id" jdbcType="INTEGER" property="psid"/>
     <result column="product_num" jdbcType="INTEGER" property="productNum"/>
     <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime"/>
     <result column="pay_time" jdbcType="TIMESTAMP" property="payTime"/>
@@ -33,17 +33,17 @@
       <if test="likeOrderId != null">
         and order_id like #{likeOrderId,jdbcType=VARCHAR}
       </if>
-      <if test="eqPId != null">
-        and p_id = #{eqPId,jdbcType=INTEGER}
+      <if test="eqPid != null">
+        and p_id = #{eqPid,jdbcType=INTEGER}
       </if>
-      <if test="gtPId != null">
-        and p_id <![CDATA[ > ]]> #{gtPId,jdbcType=INTEGER}
+      <if test="gtPid != null">
+        and p_id <![CDATA[ > ]]> #{gtPid,jdbcType=INTEGER}
       </if>
-      <if test="eqPsId != null">
-        and ps_id = #{eqPsId,jdbcType=INTEGER}
+      <if test="eqPsid != null">
+        and ps_id = #{eqPsid,jdbcType=INTEGER}
       </if>
-      <if test="gtPsId != null">
-        and ps_id <![CDATA[ > ]]> #{gtPsId,jdbcType=INTEGER}
+      <if test="gtPsid != null">
+        and ps_id <![CDATA[ > ]]> #{gtPsid,jdbcType=INTEGER}
       </if>
       <if test="eqProductNum != null">
         and product_num = #{eqProductNum,jdbcType=INTEGER}
@@ -107,8 +107,8 @@
   <insert id="insert" parameterType="com.shoes.entity.Porder">
     insert into p_order (id, order_id, p_id, ps_id, product_num, begin_time, pay_time, finsh_time,
       status, user_id)
-    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{pId,jdbcType=INTEGER},
-      #{psId,jdbcType=INTEGER}, #{productNum,jdbcType=INTEGER}, #{beginTime,jdbcType=TIMESTAMP},
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER},
+      #{psid,jdbcType=INTEGER}, #{productNum,jdbcType=INTEGER}, #{beginTime,jdbcType=TIMESTAMP},
       #{payTime,jdbcType=TIMESTAMP}, #{finshTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
       #{userId,jdbcType=INTEGER})
     <selectKey keyProperty="id" resultType="java.lang.Integer">SELECT LAST_INSERT_ID() as id
@@ -117,8 +117,8 @@
   <update id="updateById" parameterType="com.shoes.entity.Porder">
     update p_order
     set order_id = #{orderId,jdbcType=VARCHAR},
-      p_id = #{pId,jdbcType=INTEGER},
-      ps_id = #{psId,jdbcType=INTEGER},
+      p_id = #{pid,jdbcType=INTEGER},
+      ps_id = #{psid,jdbcType=INTEGER},
       product_num = #{productNum,jdbcType=INTEGER},
       begin_time = #{beginTime,jdbcType=TIMESTAMP},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
@@ -133,11 +133,11 @@
       <if test="orderId != null">
         order_id = #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="pId != null">
-        p_id = #{pId,jdbcType=INTEGER},
+      <if test="pid != null">
+        p_id = #{pid,jdbcType=INTEGER},
       </if>
-      <if test="psId != null">
-        ps_id = #{psId,jdbcType=INTEGER},
+      <if test="psid != null">
+        ps_id = #{psid,jdbcType=INTEGER},
       </if>
       <if test="productNum != null">
         product_num = #{productNum,jdbcType=INTEGER},

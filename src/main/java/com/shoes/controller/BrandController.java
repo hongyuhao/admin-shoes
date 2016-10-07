@@ -1,5 +1,7 @@
 package com.shoes.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.shoes.entity.Brand;
 import com.shoes.framework.web.BaseController3;
 import com.shoes.framework.web.HttpRequestInfo;
@@ -26,6 +28,9 @@ public class BrandController extends BaseController3 {
 
     private static final String EDIT_VIEW = "admin/brand/edit";
 
+    /** 图片上传  **/
+    private final static  String IMG_UPLOAD = "/imgUpload";
+
     @Resource
     private BrandService brandService;
 
@@ -33,6 +38,9 @@ public class BrandController extends BaseController3 {
     public String listBrand(HttpServletRequest request, ModelMap model) {
         HttpRequestInfo reqInfo = new HttpRequestInfo(request);
         setRequestModelMap( request, model, true );
+        if(model.containsKey("lkBrandName")) {
+            model.put("likeBrandName", "%" + reqInfo.getParameter("lkBrandName") + "%");
+        }
         getPageList( model );
         return HOME_VIEW;
     }
@@ -100,7 +108,7 @@ public class BrandController extends BaseController3 {
         DWZResponse.Builder builder;
         try {
             String[] idArray = inIdList.split(",");
-            model.put("inIdList", idArray);
+            model.put("inBrandIdList", idArray);
             brandService.delete( model ); 
             builder = DWZResponse.getSucessBuilder("success");
         } catch (Exception e) {
@@ -109,6 +117,17 @@ public class BrandController extends BaseController3 {
         RenderUtil.renderHtml(builder.build().toString(), response);
         model.clear();
         return null;
+    }
+
+    @RequestMapping(IMG_UPLOAD)
+    public JSONObject imgUpload(HttpServletRequest request) {
+        JSONObject result ;
+        try {
+            result = brandService.uploadImg(request);
+        } catch (Exception e) {
+            result = JSONObject.parseObject("{\"code\":1, \"tip\":\"上传失败\"}");
+        }
+        return result;
     }
 
     private PageList<Brand> getPageList(ModelMap model) {

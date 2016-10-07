@@ -1,5 +1,6 @@
 package com.shoes.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shoes.entity.Product;
 import com.shoes.framework.web.BaseController3;
 import com.shoes.framework.web.HttpRequestInfo;
@@ -33,6 +34,9 @@ public class ProductController extends BaseController3 {
     public String listProduct(HttpServletRequest request, ModelMap model) {
         HttpRequestInfo reqInfo = new HttpRequestInfo(request);
         setRequestModelMap( request, model, true );
+        if(model.containsKey("lkTitle")) {
+            model.put("likeTitle", "%" + reqInfo.getParameter("lkTitle") + "%");
+        }
         getPageList( model );
         return HOME_VIEW;
     }
@@ -53,9 +57,11 @@ public class ProductController extends BaseController3 {
         setRequestModelMap(request, model, false);
         DWZResponse.Builder builder;
         try {
+            System.out.println(JSONObject.toJSONString(product));
             productService.insert( product ); 
             builder = DWZResponse.getSucessBuilder("success");
         } catch (Exception e) {
+            e.printStackTrace();
             builder = DWZResponse.getFailBuilder("fail" + Arrays.deepToString(e.getStackTrace()));
         }
         RenderUtil.renderHtml(builder.build().toString(), response);

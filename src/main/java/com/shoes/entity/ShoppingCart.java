@@ -14,13 +14,13 @@ public class ShoppingCart implements Serializable {
      * This field corresponds to the database column shopping_cart.p_id
      * 产品id
      */
-    private Integer pId = 0;
+    private Integer pid = 0;
 
     /**
      * This field corresponds to the database column shopping_cart.ps_id
      * 对应尺寸id
      */
-    private Integer psId = 0;
+    private Integer psid = 0;
 
     /**
      * This field corresponds to the database column shopping_cart.cart_num
@@ -51,43 +51,7 @@ public class ShoppingCart implements Serializable {
         this.id = id;
     }
 
-    /**
-     * This method returns the value of the database column shopping_cart.p_id
-     *
-     * @return the value of shopping_cart.p_id
-     */
-    public Integer getPId() {
-        return pId;
-    }
-
-    /**
-     * This method sets the value of the database column shopping_cart.p_id
-     *
-     * @param pId the value for shopping_cart.p_id
-     */
-    public void setPId(Integer pId) {
-        this.pId = pId;
-    }
-
-    /**
-     * This method returns the value of the database column shopping_cart.ps_id
-     *
-     * @return the value of shopping_cart.ps_id
-     */
-    public Integer getPsId() {
-        return psId;
-    }
-
-    /**
-     * This method sets the value of the database column shopping_cart.ps_id
-     *
-     * @param psId the value for shopping_cart.ps_id
-     */
-    public void setPsId(Integer psId) {
-        this.psId = psId;
-    }
-
-    /**
+   /**
      * This method returns the value of the database column shopping_cart.cart_num
      *
      * @return the value of shopping_cart.cart_num
@@ -121,5 +85,21 @@ public class ShoppingCart implements Serializable {
      */
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
+
+    public Integer getPsid() {
+        return psid;
+    }
+
+    public void setPsid(Integer psid) {
+        this.psid = psid;
     }
 }
