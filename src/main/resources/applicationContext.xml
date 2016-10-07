@@ -40,6 +40,7 @@
     </bean>
 
 	<import resource="classpath:applicationContext-database.xml"/>
+	<import resource="classpath:applicationContext-interceptors.xml"/>
 
    	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
